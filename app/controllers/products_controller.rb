@@ -6,6 +6,11 @@ class ProductsController < ApplicationController
         
     elsif params[:sort] == "desc"
 		  @product = Product.all.order(price: :desc)
+
+    elsif params[:filter] == "discount"
+
+      @product = Product.where("price <= ?", 100000)
+          
     else 
       @product = Product.all
     end 
