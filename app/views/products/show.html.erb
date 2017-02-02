@@ -18,7 +18,7 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <img src="<%= @product.images.second.url %>" alt="Chania">
+      <img src="<%= @product.images[0].url %>" alt="Chania">
     </div>
 
     <% @product.images.each do |image| %> 

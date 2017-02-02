@@ -16,7 +16,11 @@ class ProductsController < ApplicationController
     end 
 	end
 	def show
-		@product = Product.find_by(id:params[:id]) 
+    if params[:id] == "random"
+      @product = Product.all.sample
+    else 
+      @product = Product.find_by(id:params[:id]) 
+    end 
     
 	end
 
@@ -28,7 +32,8 @@ class ProductsController < ApplicationController
       description = params[:description]
       price = params[:price]
       image = params[:image]
-      product = Product.new({name: name, description: description, image: image, price: price})
+      supplier_id = params[:supplier_id]
+      product = Product.new({name: name, description: description, image: image, price: price, supplier_id: supplier_id})
       product.save
 
       flash[:success] = "Product Created"
@@ -59,7 +64,15 @@ class ProductsController < ApplicationController
 
 		 flash[:danger] = "Product Deleted"
 		redirect_to "/products"
-	end 
+	end
+  def search
+     search_query = params[:search_input]
+     @product = Product.where("name LIKE? OR description LIKE?", "%#{search_query}%", "%#{search_query}%")
+     if @product.empty?
+       flash[:info] = "No results match #{search_query}"
+     end
+    render :index
+   end 
 end
 
 
