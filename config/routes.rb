@@ -15,5 +15,9 @@ Rails.application.routes.draw do
   post "/login", to: 'sessions#create'
   get "/delete", to: 'sessions#destroy'
 
+  get "/images", to: 'images#new'
+  post "/products/:id/images", to: 'images#create'
+
+
   
 end

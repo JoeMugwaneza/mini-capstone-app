@@ -45,4 +45,6 @@
 
 <a class="btn btn-default" href="/products/<%= @product.id %>/edit" role="button">Edit</a>
 <%= button_to "delete", "/products/#{@product.id}", method: :delete%>
+<%= button_to "Add New Image", "/products/#{@product.id}/images", method: :create%>
+
 
