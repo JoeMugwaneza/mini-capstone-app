@@ -2,19 +2,25 @@ class ProductsController < ApplicationController
 
 	def index
     if params[:sort] == "asc"
-      @product = Product.all.order(:price)
+      @products = Product.all.order(:price)
         
     elsif params[:sort] == "desc"
-		  @product = Product.all.order(price: :desc)
+		  @products = Product.all.order(price: :desc)
 
     elsif params[:filter] == "discount"
+      @products = Product.where("price <= ?", 100000)
 
-      @product = Product.where("price <= ?", 100000)
-          
+     
+    elsif params[:category]
+      @products = Category.find_by(name: params[:category]).products
+    
+
     else 
-      @product = Product.all
+      @products = Product.all
     end 
+          
 	end
+
 	def show
     if params[:id] == "random"
       @product = Product.all.sample
@@ -25,6 +31,10 @@ class ProductsController < ApplicationController
 	end
 
 	def new
+    unless current_user
+      flash[:message] = "Only signed in cooks can create recipes!"
+      redirect_to "/signup"
+    end
 	end 
 
 	def create
@@ -33,7 +43,8 @@ class ProductsController < ApplicationController
       price = params[:price]
       image = params[:image]
       supplier_id = params[:supplier_id]
-      product = Product.new({name: name, description: description, image: image, price: price, supplier_id: supplier_id})
+      product = Product.new({name: name, description: description, image: image, price: price, supplier_id: supplier_id, user_id:current_user.id})
+      
       product.save
 
       flash[:success] = "Product Created"

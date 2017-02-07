@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   post "/products/search", to: 'products#search'
 	get "/products/:id", to: 'products#show'
 	post "/products", to: 'products#create'
+
+  get "/orders", to:'orders#new'
+  post "/orders/:id", to:'orders#create'
+
 	get "/products/:id/edit", to: 'products#edit'
 	patch "/products/:id", to: 'products#update'
 	delete "/products/:id", to: 'products#destroy'
@@ -11,13 +15,15 @@ Rails.application.routes.draw do
   get "/signup", to: 'users#new'
   post "/users", to: 'users#create'
 
+  
+  
+
   get "/login", to: 'sessions#new'
   post "/login", to: 'sessions#create'
-  get "/delete", to: 'sessions#destroy'
+  delete "/logout", to: 'sessions#destroy'
 
-  get "/images", to: 'images#new'
-  post "/products/:id/images", to: 'images#create'
-
+  post "/orders", to: 'orders#create'
+  get "/orders/:id", to: 'orders#show'
 
   
 end
