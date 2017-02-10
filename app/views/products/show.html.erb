@@ -47,7 +47,7 @@
 	
 <h2>Supplier:<%= @product.supplier.name %></h2>
 
-
+<% if current_user %>
     <%= form_tag "/carted_products", method: :post do %>
       <div>
         Quantity: <input type="text" name="quantity">
@@ -58,11 +58,13 @@
       <div>    
         <input type="submit" value="Add to cart!">
       </div>
+      <% end  %>
     <% end %>
-
-<a class="btn btn-default" href="/products/<%= @product.id %>/edit" role="button">Edit</a>
-<%= button_to "delete", "/products/#{@product.id}", method: :delete%>
-<%= button_to "Add New Image", "/images/new", class: "btn btn-primary", method: :get %>
+<% if current_user %>
+  <a class="btn btn-default" href="/products/<%= @product.id %>/edit" role="button">Edit</a>
+  <%= button_to "delete", "/products/#{@product.id}", method: :delete%>
+  <%= button_to "Add New Image", "/images/new", class: "btn btn-primary", method: :get %>
+<% end %>
 
     
   
