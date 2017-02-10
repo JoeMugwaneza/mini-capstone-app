@@ -48,7 +48,7 @@
 <h2>Supplier:<%= @product.supplier.name %></h2>
 
 
-    <%= form_tag "/orders", method: :post do %>
+    <%= form_tag "/carted_products", method: :post do %>
       <div>
         Quantity: <input type="text" name="quantity">
       </div>

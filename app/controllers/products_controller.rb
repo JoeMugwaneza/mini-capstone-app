@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
 
+  before_action :authenticate_user!, except: [:index, :show, :search]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+
 	def index
     if params[:sort] == "asc"
       @products = Product.all.order(:price)
