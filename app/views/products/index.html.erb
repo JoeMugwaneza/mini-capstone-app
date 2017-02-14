@@ -6,7 +6,7 @@
         <%= button_to "Add New Product", "/products/new", class: "btn btn-primary", method: :get %>
       <% end %>
 <table class="table-striped">
-  <%= @products.each_slice(3) do |three_products| %>
+  <% @products.each_slice(3) do |three_products| %>
     <div class="row">
         <% three_products.each do |product| %>
           <div class="col-md-4">

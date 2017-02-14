@@ -34,6 +34,8 @@ class ProductsController < ApplicationController
 	end
 
 	def new
+    @product = Product.new
+     @suppliers = Supplier.all
     unless current_user
       flash[:message] = "Only signed in cooks can create recipes!"
       redirect_to "/signup"
@@ -44,14 +46,19 @@ class ProductsController < ApplicationController
       name = params[:name]
       description = params[:description]
       price = params[:price]
-      image = params[:image]
+     
       supplier_id = params[:supplier_id]
-      product = Product.new({name: name, description: description, image: image, price: price, supplier_id: supplier_id, user_id:current_user.id})
+      @product = Product.new({name: name, description: description, price: price, supplier_id: supplier_id})
       
-      product.save
+      if @product.save      
 
-      flash[:success] = "Product Created"
-      redirect_to "/products/#{product.id}"
+        flash[:success] = "Product Created"
+        redirect_to "/products/#{product.id}"
+      else 
+      @suppliers = Supplier.all
+      flash[:warning] = "Product NOT Created"
+      render :new
+      end
   end
 
   def edit
@@ -81,11 +88,12 @@ class ProductsController < ApplicationController
 	end
   def search
      search_query = params[:search_input]
-     @product = Product.where("name LIKE? OR description LIKE?", "%#{search_query}%", "%#{search_query}%")
-     if @product.empty?
+     @products = Product.where("name LIKE? OR description LIKE?", "%#{search_query}%", "%#{search_query}%")
+
+     if @products.empty?
        flash[:info] = "No results match #{search_query}"
      end
-    render :index
+      render :index
    end 
 end
 
